@@ -1,0 +1,46 @@
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class LabaWhile {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int k = 2;
+        do {
+            System.out.println("Пароль: ");
+            String parol = sc.nextLine();
+
+            String format = "[a-zA-Z0-9_]{8,}";
+            String chisla = "[0-9]";
+            String zaglavnie = "[A-Z]";
+            String strochnie = "[a-z]";
+
+
+            Pattern chi = Pattern.compile(chisla);
+            Matcher chis = chi.matcher(parol);
+
+            Pattern zagl = Pattern.compile(zaglavnie);
+            Matcher zaglav = zagl.matcher(parol);
+
+            Pattern stro = Pattern.compile(strochnie);
+            Matcher stroch = stro.matcher(parol);
+
+            Pattern form = Pattern.compile(format);
+            Matcher forma = form.matcher(parol);
+
+            if (forma.matches()) {
+                if (chis.find() && zaglav.find() && stroch.find()) {
+                    System.out.println("Пароль надежен!");
+                    System.exit(0);
+                }
+                System.out.println("Пароль ненадежен. Повторите ввод");
+
+            }
+            else {
+                System.out.println("Пароль не по формату. Повторите ввод");
+
+            }
+
+        }while(k>1);
+    }
+}
