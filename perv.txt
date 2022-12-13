@@ -2,45 +2,75 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LabaWhile {
+public class LabaWhileDva {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int k = 2;
+        int k=2;
         do {
-            System.out.println("Пароль: ");
-            String parol = sc.nextLine();
+            System.out.println("Дата: ");
 
-            String format = "[a-zA-Z0-9_]{8,}";
-            String chisla = "[0-9]";
-            String zaglavnie = "[A-Z]";
-            String strochnie = "[a-z]";
+            String datum = sc.nextLine();
 
+            String chisla = "[0-9]{2,}";
+            String format = "[0-9]{2}+/+[0-9]{2}+/+[0-9]{4}";
 
             Pattern chi = Pattern.compile(chisla);
-            Matcher chis = chi.matcher(parol);
-
-            Pattern zagl = Pattern.compile(zaglavnie);
-            Matcher zaglav = zagl.matcher(parol);
-
-            Pattern stro = Pattern.compile(strochnie);
-            Matcher stroch = stro.matcher(parol);
+            Matcher chis = chi.matcher(datum);
 
             Pattern form = Pattern.compile(format);
-            Matcher forma = form.matcher(parol);
+            Matcher forma = form.matcher(datum);
+
+            int day = 13;
+            int month = 13;
+            int year = 13;
 
             if (forma.matches()) {
-                if (chis.find() && zaglav.find() && stroch.find()) {
-                    System.out.println("Пароль надежен!");
-                    System.exit(0);
+
+                int i = 1;
+                while (chis.find()) {
+                    if (i == 1) {
+                        day = Integer.parseInt(datum.substring(chis.start(), chis.end()));
+
+                    }
+                    if (i == 2) {
+                        month = Integer.parseInt(datum.substring(chis.start(), chis.end()));
+
+                    }
+
+                    if (i == 3) {
+                        year = Integer.parseInt(datum.substring(chis.start(), chis.end()));
+
+                    }
+                    if (i == 4) {
+                        System.out.println("Выделенное выражение не является датой");
+                        System.exit(0);
+                    }
+                    i = i + 1;
+
                 }
-                System.out.println("Пароль ненадежен. Повторите ввод");
+                if ((day < 32 && day > 0) && (month > 0 && month < 13) && (year > 1899 && year < 10000)) {
+                    if (month == 4 | month == 6 | month == 9 | month == 11) {
+                        if (day == 31) {
+                            System.out.println("Выделенное выражение не является датой");
+                            System.exit(0);
+                        }
+                    }
+                    if (month == 2) {
+                        if (day == 30 | day == 31) {
+                            System.out.println("Выделенное выражение не является датой");
+                            System.exit(0);
+                        }
+                    }
+                    System.out.println("Введенное выражение является датой");
+                    System.exit(0);
+                } else {
+                    System.out.println("Выделенное выражение не является датой");
+                }
 
+
+            } else {
+                System.out.println("Введенное выражение не соответствует заданному формату даты dd/mm/yyyy");
             }
-            else {
-                System.out.println("Пароль не по формату. Повторите ввод");
-
-            }
-
         }while(k>1);
     }
 }
